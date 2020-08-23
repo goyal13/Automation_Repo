@@ -8,13 +8,13 @@ Feature: Test UI
   Scenario Outline: Run tests on multiple browser sequentially
     Given I use "<browser>" browser
     And I launch "<URL>"
-    And I search for movies
+#    And I search for movies
     Examples:
       | browser       | URL                     |
-      | chrome        | <PROPVALUE(google.url)> |
-      | firefox       | <PROPVALUE(google.url)> |
-      | ie            | <PROPVALUE(google.url)> |
       | mobile_chrome | <PROPVALUE(google.url)> |
+#      | firefox       | <PROPVALUE(google.url)> |
+#      | ie            | <PROPVALUE(google.url)> |
+#      | edge          | <PROPVALUE(google.url)> |
 
 
   @crossbrowser

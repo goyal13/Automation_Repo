@@ -10,7 +10,7 @@ public class UISteps extends UIOperations {
     @Given("^I use \"(.*?)\" browser$")
     public void getDriver(String browser) throws Exception {
         browser = getOverlay(browser);
-        ReadEnvironmentVariables.setBrowserName(browser);
+        ReadEnvironmentVariables.setBrowser(browser);
     }
 
     @And("^I launch \"([^\"]*)\"$")

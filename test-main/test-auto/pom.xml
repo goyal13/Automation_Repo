@@ -17,24 +17,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <env>dev</env>
-        <runTestsonRemoteHost>true</runTestsonRemoteHost>
-        <!--        <remoteHostUrl>http://13.232.147.27:4444/wd/hub</remoteHostUrl>-->
-        <remoteHostUrl>http://localhost:4444/wd/hub</remoteHostUrl>
+        <runTestsonRemoteHost>false</runTestsonRemoteHost>
+        <remoteHostUrl>http://13.228.137.176:4444/wd/hub</remoteHostUrl>
+        <agentUrl>http://localhost:8585</agentUrl>
         <browserName>chrome</browserName>
-        <browserVersion></browserVersion>
-        <!-- For SAUCE LABS please check capabilities at https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/ -->
-        <!-- WINDOWS WIN10 LINUX ANDROID -->
-        <OSPlatform>LINUX</OSPlatform>
-        <runnerMode>GUI</runnerMode>
         <runHeadless>false</runHeadless>
         <runOnSauce>false</runOnSauce>
-        <devicePlatformName>Android</devicePlatformName>
-        <devidePlatformVersion>7.1</devidePlatformVersion>
-        <deviceAppiumVersion>1.8.1</deviceAppiumVersion>
-        <deviceName>Android GoogleAPI Emulator</deviceName>
         <cucumberRunner>RunCucumberIT</cucumberRunner>
-
-        <!-- for multiple tags like @SN1 @SN2 it will show an error, ignore it-->
         <cucumberTags>@docker</cucumberTags>
         <forkCount>3</forkCount>
     </properties>
@@ -62,15 +51,9 @@
                                 <runTestsonRemoteHost>${runTestsonRemoteHost}</runTestsonRemoteHost>
                                 <remoteHostUrl>${remoteHostUrl}</remoteHostUrl>
                                 <browserName>${browserName}</browserName>
-                                <browserVersion>${browserVersion}</browserVersion>
-                                <runnerMode>${runnerMode}</runnerMode>
-                                <OSPlatform>${OSPlatform}</OSPlatform>
                                 <runHeadless>${runHeadless}</runHeadless>
                                 <runOnSauce>${runOnSauce}</runOnSauce>
-                                <devicePlatformName>${devicePlatformName}</devicePlatformName>
-                                <devidePlatformVersion>${devidePlatformVersion}</devidePlatformVersion>
-                                <deviceAppiumVersion>${deviceAppiumVersion}</deviceAppiumVersion>
-                                <deviceName>${deviceName}</deviceName>
+                                <agentUrl>${agentUrl}</agentUrl>
                             </systemProperties>
                         </configuration>
                     </plugin>
@@ -81,7 +64,7 @@
                         <executions>
                             <execution>
                                 <id>execution</id>
-                                <phase>install</phase>
+                                <phase>test</phase>
                                 <goals>
                                     <goal>generate</goal>
                                 </goals>
@@ -100,117 +83,7 @@
                         <executions>
                             <execution>
                                 <id>copy-file</id>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>copy</goal>
-                                </goals>
-                                <configuration>
-                                    <sourceFile>target/cucumber-reports/cucumber-html-reports/overview-features.html
-                                    </sourceFile>
-                                    <destinationFile>target/cucumber-reports/cucumber-html-reports/index.html
-                                    </destinationFile>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>ParallelTestRunner</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.temyers</groupId>
-                        <artifactId>cucumber-jvm-parallel-plugin</artifactId>
-                        <version>5.0.0</version>
-                        <executions>
-                            <execution>
-                                <id>generateRunners</id>
-                                <phase>generate-test-sources</phase>
-                                <goals>
-                                    <goal>generateRunners</goal>
-                                </goals>
-                                <configuration>
-                                    <glue>
-                                        <package>com.test.autothon</package>
-                                    </glue>
-                                    <outputDirectory>${project.build.directory}/generated-test-sources/cucumber
-                                    </outputDirectory>
-                                    <featuresDirectory>src/test/resources/features/</featuresDirectory>
-                                    <cucumberOutputDir>target/cucumber-reports</cucumberOutputDir>
-                                    <plugins>
-                                        <plugin>
-                                            <name>json</name>
-                                        </plugin>
-                                    </plugins>
-                                    <strict>true</strict>
-                                    <monochrome>true</monochrome>
-                                    <tags>
-                                        <tag>${cucumberTags}</tag>
-                                    </tags>
-                                    <useTestNG>false</useTestNG>
-                                    <namingScheme>simple</namingScheme>
-                                    <namingPattern>Parallel{c}IT</namingPattern>
-                                    <parallelScheme>SCENARIO</parallelScheme>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.22.0</version>
-                        <configuration>
-                            <testFailureIgnore>true</testFailureIgnore>
-                            <forkCount>${forkCount}</forkCount>
-                            <reuseForks>true</reuseForks>
-                            <includes>
-                                <include>**/Parallel*IT.class</include>
-                            </includes>
-                            <systemProperties>
-                                <env>${env}</env>
-                                <runTestsonRemoteHost>${runTestsonRemoteHost}</runTestsonRemoteHost>
-                                <remoteHostUrl>${remoteHostUrl}</remoteHostUrl>
-                                <browserName>${browserName}</browserName>
-                                <browserVersion>${browserVersion}</browserVersion>
-                                <OSPlatform>${OSPlatform}</OSPlatform>
-                                <runHeadless>${runHeadless}</runHeadless>
-                                <runOnSauce>${runOnSauce}</runOnSauce>
-                                <devicePlatformName>${devicePlatformName}</devicePlatformName>
-                                <devidePlatformVersion>${devidePlatformVersion}</devidePlatformVersion>
-                                <deviceAppiumVersion>${deviceAppiumVersion}</deviceAppiumVersion>
-                                <deviceName>${deviceName}</deviceName>
-                            </systemProperties>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>net.masterthought</groupId>
-                        <artifactId>maven-cucumber-reporting</artifactId>
-                        <version>3.9.0</version>
-                        <executions>
-                            <execution>
-                                <id>execution</id>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>generate</goal>
-                                </goals>
-                                <configuration>
-                                    <projectName>${project.name}</projectName>
-                                    <outputDirectory>target/cucumber-reports</outputDirectory>
-                                    <cucumberOutput>target/cucumber-reports/</cucumberOutput>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>com.coderplus.maven.plugins</groupId>
-                        <artifactId>copy-rename-maven-plugin</artifactId>
-                        <version>1.0.1</version>
-                        <executions>
-                            <execution>
-                                <id>copy-file</id>
-                                <phase>install</phase>
+                                <phase>test</phase>
                                 <goals>
                                     <goal>copy</goal>
                                 </goals>
@@ -248,17 +121,50 @@
                                 <runTestsonRemoteHost>${runTestsonRemoteHost}</runTestsonRemoteHost>
                                 <remoteHostUrl>${remoteHostUrl}</remoteHostUrl>
                                 <browserName>${browserName}</browserName>
-                                <browserVersion>${browserVersion}</browserVersion>
-                                <runnerMode>${runnerMode}</runnerMode>
-                                <OSPlatform>${OSPlatform}</OSPlatform>
                                 <runHeadless>${runHeadless}</runHeadless>
                                 <runOnSauce>${runOnSauce}</runOnSauce>
-                                <devicePlatformName>${devicePlatformName}</devicePlatformName>
-                                <devidePlatformVersion>${devidePlatformVersion}</devidePlatformVersion>
-                                <deviceAppiumVersion>${deviceAppiumVersion}</deviceAppiumVersion>
-                                <deviceName>${deviceName}</deviceName>
+                                <agentUrl>${agentUrl}</agentUrl>
                             </systemProperties>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>net.masterthought</groupId>
+                        <artifactId>maven-cucumber-reporting</artifactId>
+                        <version>3.9.0</version>
+                        <executions>
+                            <execution>
+                                <id>execution</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                                <configuration>
+                                    <projectName>${project.name}</projectName>
+                                    <outputDirectory>target/cucumber-reports</outputDirectory>
+                                    <cucumberOutput>target/cucumber-reports/</cucumberOutput>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.coderplus.maven.plugins</groupId>
+                        <artifactId>copy-rename-maven-plugin</artifactId>
+                        <version>1.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>copy-file</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <sourceFile>target/cucumber-reports/cucumber-html-reports/overview-features.html
+                                    </sourceFile>
+                                    <destinationFile>target/cucumber-reports/cucumber-html-reports/index.html
+                                    </destinationFile>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>

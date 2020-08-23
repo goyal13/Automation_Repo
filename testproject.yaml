@@ -1,0 +1,37 @@
+# NOTE: Make sure to update the 'testproject-agent' container volume with a valid local path.
+# To execute this docker-compose, store it in a file (e.g. testproject-agent.yaml) an run:
+# docker-compose -f docker-compose.yaml up -d
+
+version: "3.1"
+services:
+  testproject-agent:
+    image: testproject/agent:latest
+    container_name: testproject-agent
+    depends_on:
+      - chrome
+      - firefox
+  volumes:
+    - /var/tmp/testproject:/var/testproject/agent
+    environment:
+      TP_API_KEY: "xfuINXofmAT9dyO90OBA9CuMfg3ATP7K8wyXqDVsiko1"
+      TP_SDK_PORT: "8686"             # Agent will listen on port 8686 for SDK connections
+    TP_AGENT_ALIAS: "Linux EC2 Instance"
+      CHROME: "chrome:4444"           # Address for Agent to communicate with Chrome browser
+      CHROME_EXT: "13.234.213.105:5555"    # Address for accessing the Chrome Selenium server
+      FIREFOX: "firefox:4444"         # Address for Agent to communicate with Firefox browser
+      FIREFOX_EXT: "13.234.213.105:5556"   # Address for accessing the Firefox Selenium server
+      ports:
+        - "8585:8585"
+        - "8686:8686"                     # Expose port for SDK<->Agent communication
+    chrome:
+      image: selenium/standalone-chrome
+      volumes:
+        - /dev/shm:/dev/shm
+      ports:
+        - "5555:4444"                     # Expose Selenium on port 5555
+    firefox:
+      image: selenium/standalone-firefox
+      volumes:
+        - /dev/shm:/dev/shm
+      ports:
+        - "5556:4444"                     # Expose Selenium on port 5556
