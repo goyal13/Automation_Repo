@@ -2,8 +2,8 @@ package com.test.autothon.ui.steps;
 
 import com.test.autothon.common.ReadEnvironmentVariables;
 import com.test.autothon.ui.core.UIOperations;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 
 public class UISteps extends UIOperations {
 

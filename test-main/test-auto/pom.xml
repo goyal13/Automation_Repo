@@ -21,11 +21,10 @@
         <remoteHostUrl>http://13.228.137.176:4444/wd/hub</remoteHostUrl>
         <agentUrl>http://localhost:8585</agentUrl>
         <browserName>chrome</browserName>
-        <runHeadless>false</runHeadless>
+        <runHeadless>true</runHeadless>
         <runOnSauce>false</runOnSauce>
         <cucumberRunner>RunCucumberIT</cucumberRunner>
-        <cucumberTags>@docker</cucumberTags>
-        <forkCount>3</forkCount>
+        <cucumberTags>@sample</cucumberTags>
     </properties>
 
     <profiles>
@@ -43,10 +42,7 @@
                                 <include>com/test/autothon/${cucumberRunner}.java</include>
                             </includes>
                             <systemProperties>
-                                <property>
-                                    <name>cucumber.options</name>
-                                    <value>--tags ${cucumberTags}</value>
-                                </property>
+                                <cucumber.filter.tags>${cucumberTags}</cucumber.filter.tags>
                                 <env>${env}</env>
                                 <runTestsonRemoteHost>${runTestsonRemoteHost}</runTestsonRemoteHost>
                                 <remoteHostUrl>${remoteHostUrl}</remoteHostUrl>
@@ -113,10 +109,7 @@
                                 <suiteXmlFile>src/test/resources/testNG.xml</suiteXmlFile>
                             </suiteXmlFiles>
                             <systemProperties>
-                                <property>
-                                    <name>cucumber.options</name>
-                                    <value>--tags ${cucumberTags}</value>
-                                </property>
+                                <cucumber.filter.tags>${cucumberTags}</cucumber.filter.tags>
                                 <env>${env}</env>
                                 <runTestsonRemoteHost>${runTestsonRemoteHost}</runTestsonRemoteHost>
                                 <remoteHostUrl>${remoteHostUrl}</remoteHostUrl>
@@ -188,15 +181,25 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.14.3</version>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>5.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>tech.grasshopper</groupId>
+            <artifactId>extentreports-cucumber5-adapter</artifactId>
+            <version>1.5.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-testng</artifactId>
-            <version>1.2.4</version>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+            <version>1.11.232</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>2.3.2</version>
         </dependency>
     </dependencies>
 </project>

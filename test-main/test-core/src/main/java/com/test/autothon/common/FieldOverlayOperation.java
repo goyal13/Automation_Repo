@@ -3,6 +3,10 @@ package com.test.autothon.common;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  * @author Rahul_Goyal
  */
@@ -33,6 +37,12 @@ public class FieldOverlayOperation {
                 break;
             case "RANDOMALPHNUMER":
                 value = RandomGenerator.generateRandomAlphaNumericValue(Integer.valueOf(ordinalValue));
+                break;
+            case "GENERATE_TIMESTAMP":
+                TimeZone tz = TimeZone.getTimeZone("UTC");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ordinalValue);
+                simpleDateFormat.setTimeZone(tz);
+                value = simpleDateFormat.format(new Date());
                 break;
         }
         return value;

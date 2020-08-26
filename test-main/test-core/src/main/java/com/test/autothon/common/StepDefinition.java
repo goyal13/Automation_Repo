@@ -23,7 +23,7 @@ public class StepDefinition {
     }
 
     public String getOverlay(String inputString) {
-        if (inputString.isEmpty()) return "";
+        if (inputString ==null || inputString.isEmpty()) return "";
         inputString = inputString.replaceAll("(\\r|\\n)", "");
         if (inputString.matches(".*\\<.*\\(.*\\)\\>.*")) {
             return expandString(inputString);
@@ -33,6 +33,8 @@ public class StepDefinition {
     private String expandString(String inputString) {
         StringBuilder value = null;
         StringBuilder overlayElement = null;
+        String output = "";
+        inputString = inputString.replaceAll("\\>", "> *****");
         if (inputString.contains(" ")) {
             value = new StringBuilder();
             String[] arrElements = inputString.split("\\s");
@@ -59,7 +61,8 @@ public class StepDefinition {
         } else {
             return generateString(inputString);
         }
-        return value.toString();
+        output = value.toString().replaceAll(" \\*\\*\\*\\*\\*","");
+        return output;
     }
 
     private String generateString(String inputString) {
@@ -78,7 +81,7 @@ public class StepDefinition {
             newInput += "";
         }
         newInput += inputPart.substring(variableName.length() + 1);
-        logger.info("Processed Value : [ " + newInput + " ]");
+        logger.debug("Processed Value : [ " + newInput + " ]");
         return newInput;
     }
 

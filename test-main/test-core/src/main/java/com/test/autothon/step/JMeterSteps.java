@@ -2,7 +2,7 @@ package com.test.autothon.step;
 
 import com.test.autothon.common.StepDefinition;
 import com.test.autothon.jmeter.JMeterManager;
-import cucumber.api.java.en.Given;
+import io.cucumber.java.en.Given;
 
 /**
  * @author Rahul_Goyal

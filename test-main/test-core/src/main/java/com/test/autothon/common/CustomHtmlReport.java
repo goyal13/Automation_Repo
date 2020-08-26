@@ -12,11 +12,15 @@ import java.util.Map;
 
 public class CustomHtmlReport {
 
-    private static InheritableThreadLocal<StringBuilder> customReport = new InheritableThreadLocal<>();
+    private static StringBuilder customReport;
     private static InheritableThreadLocal<Map<Integer, List<String>>> concurrentResult = new InheritableThreadLocal<>();
+    private static final String COMPUTER_NAME = System.getenv("COMPUTERNAME");
+    private static final String SCENARIO_NAME = Hooks.scenarioName;
+    private static final String TIMESTAMP = StepDefinition.getDateTimeStamp("dd-MMM-yyyy HH:mm:ss.SSS");
 
     public static void initialize() {
-        customReport.set(new StringBuilder());
+        customReport = new StringBuilder();
+        setHtmlReportPrefix();
         concurrentResult.set(new HashMap<>());
     }
 
@@ -24,9 +28,9 @@ public class CustomHtmlReport {
         String prefix = "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<body>\n" +
-                "    <h4> Scenario: " + Hooks.scenarioName + "</h4>\n" +
-                "    <h4> Computer Name: " + System.getenv("COMPUTERNAME") + "</h4>\n" +
-                "    <h4> Date & Time: " + StepDefinition.getDateTimeStamp("dd-MMM-yyyy HH:mm:ss.SSS") + "</h4>\n" +
+                "    <h4> Scenario: " + SCENARIO_NAME + "</h4>\n" +
+                "    <h4> Computer Name: " + COMPUTER_NAME + "</h4>\n" +
+                "    <h4> Date & Time: " + TIMESTAMP + "</h4>\n" +
                 "    <h4 style=\"display:inline;\"> Browser: " + ReadEnvironmentVariables.getBrowserName() + "<h5 style=\"display:inline;\">&emsp; &emsp;<i><u>[ Ignore if not a UI test ] </u></i></h5></h4>\n" +
                 "    <a style=\"display:inline;\" target=\"_blank\" href=\"./../../.." + ScreenshotUtils.getImgSrcFilePath() + "\"> <h4>screenshot link</h4> </a>\n" +
                 "</body>\n" +
@@ -39,7 +43,7 @@ public class CustomHtmlReport {
                 "    myTable+= \"<th style='width: 100px; color: blue; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Actual Value</th>\";\n" +
                 "    myTable+=\"<th style='width: 100px; color: blue; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Result</th>\";\n" +
                 "    var htmlResult={};";
-        customReport.get().append(prefix);
+        customReport.append(prefix);
 
     }
 
@@ -67,11 +71,11 @@ public class CustomHtmlReport {
                 "    <title>Test Execution HTML Report</title><meta charset=\"utf-8\"/>\n" +
                 "</head>\n" +
                 "</html>";
-        customReport.get().append(suffix);
+        customReport.append(suffix);
     }
 
     public static void writeToHtmlReportFile() {
-        String scrName = Hooks.scenarioName;
+        String scrName = SCENARIO_NAME;
         String folderFormat = StepDefinition.getDateTimeStamp("ddMMMyy");
         String scrFilePath = System.getProperty("user.dir") + "/output/htmlreports/" + folderFormat;
         FileUtils.createFolder(scrFilePath);
@@ -85,7 +89,7 @@ public class CustomHtmlReport {
         FileWriter fileWriter = null;
         try {
             fileWriter = new FileWriter(file);
-            fileWriter.write(customReport.get().toString());
+            fileWriter.write(customReport.toString());
             fileWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -120,7 +124,7 @@ public class CustomHtmlReport {
         for (Map.Entry<Integer, List<String>> entry : getResultData().entrySet()) {
             int key = entry.getKey();
             List<String> valueList = entry.getValue();
-            customReport.get().append("\n htmlResult['" + key + "']={stepNo:'" + key + "',stepInfo:'" + valueList.get(0).replaceAll("\n", "r_e_p") + "',expValue:'" + valueList.get(1) +
+            customReport.append("\n htmlResult['" + key + "']={stepNo:'" + key + "',stepInfo:'" + valueList.get(0).replaceAll("\n", "r_e_p") + "',expValue:'" + valueList.get(1) +
                     "',actValue:'" + valueList.get(2) + "',result:'" + valueList.get(3).toUpperCase() + "'}");
         }
     }

@@ -24,5 +24,9 @@ public class JsonUtils {
         return new JsonMapConvertor().toJsonStringPrettyFormat(json);
     }
 
+    public static int getSizeOfResponse(String key, Object inputMap){
+        return new JsonMapConvertor().getSizeOfResponse(key, inputMap);
+    }
+
 
 }

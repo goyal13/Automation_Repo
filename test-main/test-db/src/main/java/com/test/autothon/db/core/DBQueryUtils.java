@@ -1,7 +1,7 @@
 package com.test.autothon.db.core;
 
 import com.test.autothon.common.StepDefinition;
-import cucumber.api.DataTable;
+import io.cucumber.datatable.DataTable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -102,7 +102,7 @@ public class DBQueryUtils extends StepDefinition {
         if (data == null)
             return null;
         List<SortedMap<String, String>> sortedData = new ArrayList<SortedMap<String, String>>();
-        List<List<String>> rowData = data.raw();
+        List<List<String>> rowData = data.asLists();
         for (List<String> lData : rowData.subList(1, rowData.size())) {
             SortedMap<String, String> sData = new TreeMap<>();
             for (int iC = 0; iC < rowData.get(0).size(); iC++) {

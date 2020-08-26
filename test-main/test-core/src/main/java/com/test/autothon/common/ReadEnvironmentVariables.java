@@ -29,7 +29,7 @@ public class ReadEnvironmentVariables {
 
     public static String getBrowserName() {
         String browserName = myBrowser.get();
-        if (browserName.equals(""))
+        if (browserName == null || browserName.equals(""))
             browserName = System.getProperty("browserName", "Chrome");
         return browserName;
     }
@@ -41,7 +41,7 @@ public class ReadEnvironmentVariables {
     public static boolean isRunOnSauceBrowser() {
         boolean isRunOnSauce = false;
         String runOnSauce_ = runOnSauce.get();
-        if (runOnSauce_.equals(""))
+        if (runOnSauce_ ==  null || runOnSauce_.equals(""))
             runOnSauce_ = System.getProperty("runOnSauce", "false");
         if (runOnSauce_.equalsIgnoreCase("true"))
             isRunOnSauce = true;
@@ -55,7 +55,7 @@ public class ReadEnvironmentVariables {
     public static boolean isHeadlessBrowser() {
         boolean isBoolHeadless = false;
         String isHeadless_ = runHeadless.get();
-        if (isHeadless_.equals(""))
+        if (isHeadless_ == null || isHeadless_.equals(""))
             isHeadless_ = System.getProperty("runHeadless", "false");
         if (isHeadless_.equalsIgnoreCase("true"))
             isBoolHeadless = true;
@@ -69,7 +69,7 @@ public class ReadEnvironmentVariables {
     public static boolean isRunTestsOnRemoteHost() {
         boolean isRunTestsOnRemote = false;
         String runTestsonRemoteHost_ = runTestsonRemoteHost.get();
-        if (runTestsonRemoteHost_.equals(""))
+        if (runTestsonRemoteHost_ == null || runTestsonRemoteHost_.equals(""))
             runTestsonRemoteHost_ = System.getProperty("runTestsonRemoteHost", "false");
         if (runTestsonRemoteHost_.equalsIgnoreCase("true"))
             isRunTestsOnRemote = true;
@@ -78,8 +78,8 @@ public class ReadEnvironmentVariables {
 
     public static String getAgentURL() {
         String agentURL_ = agentURL.get();
-        if (agentURL_.equals(""))
-            agentURL_ = System.getProperty("runTestsonRemoteHost", "false");
+        if (agentURL_ == null || agentURL_.equals(""))
+            agentURL_ = System.getProperty("agentURL", "http://localhost:8585");
         return agentURL_;
     }
 
@@ -89,7 +89,7 @@ public class ReadEnvironmentVariables {
 
     public static String getRemoteHostUrl() {
         String remoteHostUrl_ = remoteHostUrl.get();
-        if (remoteHostUrl_.equals(""))
+        if (remoteHostUrl_ == null || remoteHostUrl_.equals(""))
             remoteHostUrl_ = System.getProperty("remoteHostUrl", "").trim();
         return remoteHostUrl_;
     }

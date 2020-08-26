@@ -51,7 +51,7 @@ public class FileUtils {
 
     public static void writeToFile(String fileName, String content) {
         logger.info("Writing to file: " + fileName);
-        logger.info("Writing value: " + content);
+        logger.debug("Writing value: " + content);
         FileOutputStream out = null;
         File file = new File(fileName);
         try {

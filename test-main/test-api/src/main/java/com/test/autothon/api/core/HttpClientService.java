@@ -17,6 +17,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URI;
@@ -106,6 +109,7 @@ public class HttpClientService {
             httpResponseEntityString = EntityUtils.toString(httpResponseEntity);
             logger.info("Http Response code :" + httpResponse.getStatusLine());
             logger.info("Http Response \n" + JsonUtils.parsetoPrettyJson(httpResponseEntityString));
+            httpResponseEntityString = convertToValidFormat(httpResponseEntityString);
             jsonResponse = JsonUtils.parseJsonStringToMap(httpResponseEntityString);
         } catch (IOException e) {
             e.printStackTrace();
@@ -205,8 +209,8 @@ public class HttpClientService {
             cookieStore.clear();
     }
 
-    public int sizeOfResponse() {
-        return jsonResponse.size();
+    public int sizeOfResponse(String key){
+        return JsonUtils.getSizeOfResponse(key, jsonResponse);
     }
 
     private void clearRequestMethod() {
@@ -271,5 +275,28 @@ public class HttpClientService {
         } else {
             return url;
         }
+    }
+
+    private boolean isJsonValid(String jsonInput){
+        try{
+            new JSONObject(jsonInput);
+        }catch (JSONException e){
+            try {
+                new JSONArray(jsonInput);
+            }catch (JSONException e1){
+                return false;
+            }
+        }
+        return true;
+    }
+    private String convertToValidFormat(String jsonInput){
+        if (isJsonValid(jsonInput)){
+            if (jsonInput.equals(""))
+                return "{}";
+            if (jsonInput.startsWith("[")){
+                return  "{" + jsonInput + "}";
+            }
+        }
+        return jsonInput;
     }
 }

@@ -31,9 +31,9 @@ import java.util.concurrent.TimeUnit;
 public class AutoWebDriver {
 
     private final static Logger logger = LogManager.getLogger(AutoWebDriver.class);
-    private final static String TP_DEV_TOKEN = "Su-CqIyOGPB_9w5YkeNcdDf_5xhg-KqzAg_j0EccgS81";
-    private static final String USERNAME = "rahulgoyalu1";
-    private static final String ACCESS_KEY = "yyQs93tzs3wq6sBioQnK";
+    private final static String TP_DEV_TOKEN = "mCkeg_nuE9ycBZIfa7MvoBoeBbemi6Ke0Ac94mZitCI1";
+    private static final String USERNAME = "teamoneautothon1";
+    private static final String ACCESS_KEY = "TWSsyvBQWL9cJyuNxpVi";
     private static final String PROJECT_NAME = "Autothon Tests";
     private static String CLOUD_URL = "https://" + USERNAME + ":" + ACCESS_KEY + "@hub-cloud.browserstack.com/wd/hub";
     private String AGENT_URL = ReadEnvironmentVariables.getAgentURL();

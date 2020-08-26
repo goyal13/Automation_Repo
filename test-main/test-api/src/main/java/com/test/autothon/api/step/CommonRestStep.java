@@ -5,7 +5,8 @@ import com.test.autothon.common.Constants;
 import com.test.autothon.common.FileUtils;
 import com.test.autothon.common.ReadPropertiesFile;
 import com.test.autothon.common.StepDefinition;
-import cucumber.api.java.en.Given;
+import io.cucumber.datatable.DataTable;
+import io.cucumber.java.en.Given;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -25,6 +26,12 @@ public class CommonRestStep extends StepDefinition {
 
     public CommonRestStep() {
         this.commonRestService = new CommonRestService();
+    }
+
+    @Given("^Clear Headers and cookies$")
+    public void clearHeaders(){
+        commonRestService.clearInputHeader();
+        commonRestService.clearCookies();
     }
 
     @Given("^Set the base uri as \"(.*?)\"$")
@@ -81,13 +88,50 @@ public class CommonRestStep extends StepDefinition {
         commonRestService.setInputJsonPayload(jsonData);
     }
 
-    @Given("^Set Json payload located in file \"(.*?)\" by updating payload json key \"(.*?)\" with value \"(.*)\"$")
+    @Given("^Update and Set Json payload by updating payload json key \"(.*?)\" with value \"(.*)\"$")
+    public void setJsonDataByUpdatingKey(String key, String value) {
+        value = getOverlay(value);
+        key = getOverlay(key);
+        String jsonData = commonRestService.getInputStringPayload();
+        jsonData = getOverlay(jsonData);
+        commonRestService.setInputJsonPayload(jsonData);
+        commonRestService.updateInputJsonPayloadKeyValue(key, value);
+    }
+
+    @Given("^Update and Set Json payload located in file \"(.*?)\" by updating payload json key \"(.*?)\" with value \"(.*)\"$")
     public void setJsonDataLocatedInFileByUpdatingKey(String fileName, String key, String value) {
         fileName = getOverlay(fileName);
+        value = getOverlay(value);
+        key = getOverlay(key);
         String jsonData = FileUtils.readFileAsString(Constants.jsonResourcePath, fileName);
         jsonData = getOverlay(jsonData);
         commonRestService.setInputJsonPayload(jsonData);
         commonRestService.updateInputJsonPayloadKeyValue(key, value);
+    }
+
+    @Given("^Update and Set Json payload located in file \"(.*?)\" by updating below keys$")
+    public void setJsonDataLocatedInFileByUpdatingKey(String fileName, DataTable data) {
+        fileName = getOverlay(fileName);
+        String jsonData = FileUtils.readFileAsString(Constants.jsonResourcePath, fileName);
+        jsonData = getOverlay(jsonData);
+        updateKeyInJsonUsingDataTable(jsonData,data);
+    }
+
+    private void updateKeyInJsonUsingDataTable(String jsonData, DataTable dataTable){
+        List<List<String>> list = dataTable.cells();
+        String keyHeader = list.get(0).get(0);
+        String valueHeader = list.get(0).get(1);
+        List<Map<String , String >> tableData = dataTable.asMaps(String.class, String.class);
+        String jsonKey = null;
+        String value = null;
+        for (Map<String, String > map : tableData){
+            jsonKey = getOverlay(map.get(keyHeader));
+            value = getOverlay(map.get(valueHeader));
+            commonRestService.setInputJsonPayload(jsonData);
+            commonRestService.updateInputJsonPayloadKeyValue(jsonKey, value);
+            jsonData = commonRestService.getInputStringPayload();
+        }
+
     }
 
     @Given("^Set Json payload located in properties file with key \"(.*?)\" by updating payload json key \"(.*?)\" with value \"(.*)\"$")
@@ -163,7 +207,7 @@ public class CommonRestStep extends StepDefinition {
         requestKey = getOverlay(requestKey);
         tempKey = getOverlay(tempKey);
         String value = commonRestService.getRequestJsonKeyValue(requestKey);
-        FileUtils.writeToTempFile(tempKey, value);
+        ReadPropertiesFile.setPropertyValue(tempKey, value);
     }
 
     @Given("^Validate the Response code is \"(.*?)\"$")
@@ -195,6 +239,15 @@ public class CommonRestStep extends StepDefinition {
         Assert.assertTrue("Json Response Key : " + responseKey + " does not have expected value \tExpected : " + value + " \tActual : " + actualValue, actualValue.equalsIgnoreCase(value));
     }
 
+    @Given("^Validate Json Response Key \"(.*?)\" contains value \"(.*?)\"$")
+    public void assertResponseKeyContainsValue(String responseKey, String value) {
+        responseKey = getOverlay(responseKey);
+        value = getOverlay(value).toLowerCase();
+        String actualValue = commonRestService.getResponseJsonKeyValue(responseKey).toLowerCase();
+        Assert.assertTrue("Json Response Key : " + responseKey + " does not have expected value \tExpected : " + value + " \tActual : " + actualValue, actualValue.contains(value));
+    }
+
+
     @Given("^Validate Json Response Key \"(.*?)\" is Not blank$")
     public void assertResponseKeyHaveValue(String responseKey) {
         responseKey = getOverlay(responseKey);
@@ -224,13 +277,14 @@ public class CommonRestStep extends StepDefinition {
 
     @Given("^Validate Json Response is Not blank$")
     public void assertResponseIsNotBlank() {
-        Assert.assertFalse("Response is blank", !commonRestService.getResponseString().isEmpty());
+        Assert.assertFalse("Response is blank", commonRestService.getResponseString().isEmpty());
     }
 
-    @Given("^Validate Json response size is \"(.*?)\"$")
-    public void assertJsonResponseSize(String responseSize) {
+    @Given("^Validate Json response size for key \"(.*?)\" is \"(.*?)\"$")
+    public void assertJsonResponseSize(String key, String responseSize) {
+        key = getOverlay(key);
         int intResponseSize = Integer.valueOf(getOverlay(responseSize));
-        int size = commonRestService.getResponseSize();
+        int size = commonRestService.getResponseSize(key);
         Assert.assertTrue("Response size mismatch \tExpected : " + intResponseSize + " \tActual : " + size, size == intResponseSize);
     }
 

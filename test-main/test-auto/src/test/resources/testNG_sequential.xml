@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Autothon Sequential Tests">
+
+    <test name="ChromeTest_Linux_Using_TestProject_DockerContainer">
+        <parameter name="browser" value="Chrome"/>
+        <parameter name="agentUrl" value="http://13.234.213.105:8585"/>
+        <parameter name="runHeadless" value="true"/>
+        <classes>
+            <class name="com.test.autothon.RunCucumberITCrossBrowser">
+            </class>
+        </classes>
+    </test>
+    <test name="FirefoxTest_Linux_Using_TestProject_DockerContainer">
+        <parameter name="browser" value="Firefox"/>
+        <parameter name="agentUrl" value="http://13.234.213.105:8585"/>
+        <parameter name="runHeadless" value="true"/>
+        <classes>
+            <class name="com.test.autothon.RunCucumberITCrossBrowser">
+            </class>
+        </classes>
+    </test>
+    <test name="ChromeTest_Linux_Using_TestProject_DockerContainer_OnBrowserStackCloud">
+        <parameter name="browser" value="Chrome"/>
+        <parameter name="agentUrl" value="http://13.234.213.105:8585"/>
+        <parameter name="runOnSauce" value="true"/>
+        <classes>
+            <class name="com.test.autothon.RunCucumberITCrossBrowser">
+            </class>
+        </classes>
+    </test>
+    <test name="FirefoxTest_Linux_Using_TestProject_DockerContainer_OnBrowserStackCloud">
+        <parameter name="browser" value="Firefox"/>
+        <parameter name="agentUrl" value="http://13.234.213.105:8585"/>
+        <parameter name="runOnSauce" value="true"/>
+        <classes>
+            <class name="com.test.autothon.RunCucumberITCrossBrowser">
+            </class>
+        </classes>
+    </test>
+
+</suite>

@@ -2,8 +2,8 @@ package com.test.autothon.db.steps;
 
 import com.test.autothon.common.StepDefinition;
 import com.test.autothon.db.core.DBQueryUtils;
-import cucumber.api.DataTable;
-import cucumber.api.java.en.Given;
+import io.cucumber.datatable.DataTable;
+import io.cucumber.java.en.Given;
 
 import java.sql.ResultSet;
 

@@ -14,7 +14,7 @@ import java.util.Properties;
 public class ReadPropertiesFile {
 
     private final static Logger logger = LogManager.getLogger(ReadPropertiesFile.class);
-    private static Properties searchAllProps = new Properties();
+    private static final Properties searchAllProps = new Properties();
 
     public static Properties loadPropertiesfile(final String propFileName) {
         FileInputStream input = null;
@@ -62,12 +62,12 @@ public class ReadPropertiesFile {
     public static String getPropertyValue(String key) {
         String value = null;
         value = searchAllProps.getProperty(key);
-        if (value == null) {
-            loadAllPropertiesValue();
-            value = searchAllProps.getProperty(key);
-            if (value == null) logger.warn("Value for key <" + key + "> not found in properties file");
-        }
+        if (value == null) logger.warn("Value for key <" + key + "> not found in properties file");
         return value;
+    }
+
+    public static void setPropertyValue(String key, String value) {
+        searchAllProps.setProperty(key, value);
     }
 
     public static void writeToProperties(String key, String value, String filePath) {
@@ -93,6 +93,6 @@ public class ReadPropertiesFile {
                 logger.error("Error closing file\n" + e);
             }
         }
-        logger.info("Setting key <" + key + "> \t value <" + value + ">");
+        logger.debug("Setting key <" + key + "> \t value <" + value + ">");
     }
 }

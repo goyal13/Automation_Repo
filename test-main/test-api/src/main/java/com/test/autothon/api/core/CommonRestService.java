@@ -73,7 +73,7 @@ public class CommonRestService {
     }
 
     public void setInputJsonPayload(String data) {
-        logger.info("Setting input json payload to \n" + JsonUtils.parsetoPrettyJson(data));
+        logger.debug("Setting input json payload to \n" + JsonUtils.parsetoPrettyJson(data));
         inputStringJsonpayload = data;
         inputJsonPayload = JsonUtils.parseJsonStringToMap(data);
     }
@@ -93,7 +93,7 @@ public class CommonRestService {
         JsonMapConvertor jsmc = new JsonMapConvertor();
         inputJsonPayload = jsmc.removePayloadKeyByDotNotation(inputJsonPayload, key);
         inputStringJsonpayload = JsonUtils.parseJsonMapToString(inputJsonPayload);
-        logger.info("Updated json input payload set to\n" + JsonUtils.parsetoPrettyJson(inputStringJsonpayload));
+        logger.debug("Updated json input payload set to\n" + JsonUtils.parsetoPrettyJson(inputStringJsonpayload));
     }
 
     public void httpGet(String uri) {
@@ -155,8 +155,8 @@ public class CommonRestService {
         httpClientService.clearCookies();
     }
 
-    public int getResponseSize() {
-        return httpClientService.sizeOfResponse();
+    public int getResponseSize(String key) {
+        return httpClientService.sizeOfResponse(key);
     }
 
 
