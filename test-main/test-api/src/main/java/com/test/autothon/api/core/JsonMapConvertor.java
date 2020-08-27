@@ -50,6 +50,7 @@ public class JsonMapConvertor {
             prettyJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonOutput);
         } catch (IOException e) {
             logger.error("Error converting json string to pretty format" + e);
+            return jsonInput;
         }
         return prettyJson;
     }
@@ -59,7 +60,7 @@ public class JsonMapConvertor {
 
         Object result = updateValueByNotation(inputMap, key, value, ".");
 
-        if (result instanceof String && "KEY_NOT_FOUND".equals((String) result)) {
+        if (result instanceof String && "KEY_NOT_FOUND".equals(result)) {
             logger.debug("FAILURE");
         } else {
             logger.debug("SUCCESS");
@@ -172,7 +173,7 @@ public class JsonMapConvertor {
 
         Object result = removeValueByNotation(inputMap, key, ".");
 
-        if (result instanceof String && "KEY_NOT_FOUND".equals((String) result)) {
+        if (result instanceof String && "KEY_NOT_FOUND".equals(result)) {
             logger.debug("FAILURE");
         } else {
             logger.debug("SUCCESS");

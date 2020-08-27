@@ -24,7 +24,7 @@
         <runHeadless>true</runHeadless>
         <runOnSauce>false</runOnSauce>
         <cucumberRunner>RunCucumberIT</cucumberRunner>
-        <cucumberTags>@sample</cucumberTags>
+        <cucumberTags>@rest</cucumberTags>
     </properties>
 
     <profiles>

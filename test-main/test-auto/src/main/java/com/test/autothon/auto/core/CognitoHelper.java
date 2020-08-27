@@ -8,12 +8,12 @@ import org.junit.Assert;
 
 public class CognitoHelper extends StepDefinition {
 
-    private JsonMapConvertor jmc = new JsonMapConvertor();
+    private final JsonMapConvertor jmc = new JsonMapConvertor();
     private String cognitoResponse;
-    private String POOL_ID = "us-west-2_HRJuveKYa";//ReadPropertiesFile.getPropertyValue("POOL_ID");
-    private String CLIENTAPP_ID = "67ne7914v6ri9ivjj59s5cr1nc";//ReadPropertiesFile.getPropertyValue("CLIENTAPP_ID");
-    private String CLIENT_SECRET = ReadPropertiesFile.getPropertyValue("CLIENT_SECRET");
-    private String REGION = ReadPropertiesFile.getPropertyValue("REGION");
+    private final String POOL_ID = "us-west-2_HRJuveKYa";//ReadPropertiesFile.getPropertyValue("POOL_ID");
+    private final String CLIENTAPP_ID = "67ne7914v6ri9ivjj59s5cr1nc";//ReadPropertiesFile.getPropertyValue("CLIENTAPP_ID");
+    private final String CLIENT_SECRET = ReadPropertiesFile.getPropertyValue("CLIENT_SECRET");
+    private final String REGION = ReadPropertiesFile.getPropertyValue("REGION");
     private String loginToken;
 
 
@@ -24,6 +24,7 @@ public class CognitoHelper extends StepDefinition {
         AuthenticationHelper helper = new AuthenticationHelper(POOL_ID, CLIENTAPP_ID, CLIENT_SECRET, REGION);
         loginToken = helper.PerformSRPAuthentication(username, password);
         cognitoResponse = helper.getCognitoLoginUserDetails();
+        ReadPropertiesFile.setPropertyValue("loginToken", loginToken);
         System.out.println("Token: " + loginToken);
         System.out.println(jmc.toJsonStringPrettyFormat(cognitoResponse));
     }

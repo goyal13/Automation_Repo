@@ -2,7 +2,6 @@ package com.test.autothon;
 
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import com.test.autothon.common.ReadEnvironmentVariables;
-import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.junit.Cucumber;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
@@ -10,14 +9,13 @@ import io.cucumber.testng.CucumberOptions;
 import org.junit.runner.RunWith;
 import org.testng.ITestResult;
 import org.testng.Reporter;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
         strict = true,
-        plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:", "summary", "pretty", "junit:target/junit.xml", "json:target/cucumber-reports/cucumber.json"},
+        plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:", "pretty", "junit:target/junit.xml", "json:target/cucumber-reports/cucumber.json"},
         glue = {"com.test.autothon"},
         tags = {"@sample"},
         features = "src/test/resources/features"

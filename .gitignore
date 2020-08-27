@@ -1,2 +1,11 @@
 .settings/
 target/
+**/*.log
+**/*.iml
+**/.settings/
+**/.idea
+**/results
+**/reports
+**/logs
+**/output
+**/temp.properties

@@ -15,11 +15,11 @@ public class CommonRestService {
 
 
     private String restURL;
-    private Map<String, String> inputHeaders = new HashMap<String, String>();
+    private final Map<String, String> inputHeaders = new HashMap<String, String>();
     private String inputStringJsonpayload;
     private Map<String, Object> inputJsonPayload = new HashMap<String, Object>();
-    private Map<String, String> inputPathParams = new HashMap<String, String>();
-    private HttpClientService httpClientService;
+    private final Map<String, String> inputPathParams = new HashMap<String, String>();
+    private final HttpClientService httpClientService;
 
     public CommonRestService() {
         httpClientService = new HttpClientService();
@@ -86,7 +86,7 @@ public class CommonRestService {
         JsonMapConvertor jsmc = new JsonMapConvertor();
         inputJsonPayload = jsmc.setPayloadkeyByDotNotation(inputJsonPayload, key, value);
         inputStringJsonpayload = JsonUtils.parseJsonMapToString(inputJsonPayload);
-        logger.info("Updated json input payload set to\n" + JsonUtils.parsetoPrettyJson(inputStringJsonpayload));
+        logger.debug("Updated json input payload set to\n" + JsonUtils.parsetoPrettyJson(inputStringJsonpayload));
     }
 
     public void removeInputJsonPayloadKey(String key) {

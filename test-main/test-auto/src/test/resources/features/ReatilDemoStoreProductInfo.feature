@@ -1,4 +1,5 @@
-Feature: This feature is to test the Demo shopping website
+@rest
+Feature: This feature is to test the Products listed on the Demo shopping website
 
   Scenario: Get all product list from the website
     Given Set the base uri as "<PROPVALUE(demo.website.rest.base.url)>"
@@ -75,7 +76,7 @@ Feature: This feature is to test the Demo shopping website
   Scenario Outline: Validate All product under category <product> has data
     Given Validate All items under category "<product>" has data for fields "category,description,id,image,name,price,style,url"
     Examples:
-      | product  |
+      | product     |
       | footwear    |
       | housewares  |
       | apparel     |
@@ -86,7 +87,34 @@ Feature: This feature is to test the Demo shopping website
       | outdoors    |
 
 
+  Scenario Outline: Validate All Related products shown for a selected product category <product> are shown as expected
+    Given Set the base uri as "<PROPVALUE(demo.website.rest.base.url)>"
+    When Perform GET request where uri is "/products/category/<product>"
+    Then Validate the Response code is "200"
+    And Validate Json Response is Not blank
+    And Validate Json Response Key "[0].category" have value "<product>"
+    And Save Json Response Key-Value pair for "[0].id" as "product_id"
+    Given Set the base uri as "<PROPVALUE(demo.website.relateditem.base.url)>"
+    When Perform GET request where uri is "/related?userID=&currentItemID=<PROPVALUE(product_id)>&numResults=6&feature=product_detail_related&fullyQualifyImageUrls=1"
+    Then Validate the Response code is "200"
+    And Validate Json response size for key "" is "6"
+    And Validate Json Response Key "[0].product.category" have value "<product>"
+    And Validate Json Response Key "[1].product.category" have value "<product>"
+    And Validate Json Response Key "[2].product.category" have value "<product>"
+    And Validate Json Response Key "[3].product.category" have value "<product>"
+    And Validate Json Response Key "[4].product.category" have value "<product>"
+    And Validate Json Response Key "[5].product.category" have value "<product>"
 
+    Examples:
+      | product     |
+      | footwear    |
+      | housewares  |
+      | apparel     |
+      | jewelry     |
+      | beauty      |
+      | electronics |
+      | accessories |
+      | outdoors    |
 
 
 

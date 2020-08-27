@@ -1,0 +1,49 @@
+{
+  "id": "153",
+  "username": "guest",
+  "items": [
+    {
+      "product_id": "1",
+      "quantity": 1,
+      "price": 29.99
+    },
+    {
+      "product_id": "2",
+      "quantity": 1,
+      "price": 29.99
+    },
+    {
+      "product_id": "3",
+      "quantity": 1,
+      "price": 29.99
+    },
+    {
+      "product_id": "4",
+      "quantity": 1,
+      "price": 29.99
+    },
+    {
+      "product_id": "5",
+      "quantity": 1,
+      "price": 29.99
+    }
+  ],
+  "total": 165.4895,
+  "billing_address": {
+    "first_name": "Test",
+    "last_name": "User",
+    "email": "cb97bf5b-2108-4087-a2cc-b4d4b0e08c11@mailslurp.com",
+    "address1": "Test Add1",
+    "address2": "Test Add2",
+    "city": "TestCity",
+    "state": "JH",
+    "zipcode": "825401",
+    "country": "IN"
+  },
+  "email": "cb97bf5b-2108-4087-a2cc-b4d4b0e08c11@mailslurp.com",
+  "channel": "WEB",
+  "channel_details": {
+    "channel_id": 1,
+    "channel_geo": "US"
+  }
+}

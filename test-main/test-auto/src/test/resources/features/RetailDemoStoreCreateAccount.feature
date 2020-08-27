@@ -1,12 +1,13 @@
+@rest
 Feature: This feature is to test the Create User account flow
 
   Scenario: Create Account - Positive
-    Given Set the base uri as "<PROPVALUE(demo.webiste.signup.url)>"
+    Given Set the base uri as "<PROPVALUE(demo.webiste.cognito.url)>"
     And Set Json payload located in file "/RegisterUser.json"
     And Save Json Request Key-Value pair for "Username" as "Username"
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.SignUp"
-    When Perform POST requset where uri is "/"
+    When Perform POST request where uri is "/"
     Then Validate the Response code is "200"
     And Validate Json Response Key "UserConfirmed" have value "false"
     And Validate Json Response Key "CodeDeliveryDetails.AttributeName" have value "phone_number"
@@ -15,12 +16,12 @@ Feature: This feature is to test the Create User account flow
     And Save Json Response Key-Value pair for "UserSub" as "UserSub"
 
   Scenario: Create Account - Duplicate Users
-    Given Set the base uri as "<PROPVALUE(demo.webiste.signup.url)>"
+    Given Set the base uri as "<PROPVALUE(demo.webiste.cognito.url)>"
     And Set Json payload located in file "/RegisterUser.json"
     And Save Json Request Key-Value pair for "Username" as "username"
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.SignUp"
-    When Perform POST requset where uri is "/"
+    When Perform POST request where uri is "/"
     Then Validate the Response code is "200"
     And Validate Json Response Key "UserConfirmed" have value "false"
     And Validate Json Response Key "CodeDeliveryDetails.AttributeName" have value "phone_number"
@@ -30,7 +31,7 @@ Feature: This feature is to test the Create User account flow
     Given Update and Set Json payload located in file "/RegisterUser.json" by updating payload json key "Username" with value "<PROPVALUE(username)>"
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.SignUp"
-    When Perform POST requset where uri is "/"
+    When Perform POST request where uri is "/"
     Then Validate the Response code is "400"
     And Validate Json Response Key "__type" have value "UsernameExistsException"
     And Validate Json Response Key "message" have value "User already exists"
@@ -38,24 +39,24 @@ Feature: This feature is to test the Create User account flow
     Given Update and Set Json payload located in file "/RegisterUser.json" by updating payload json key "Username" with value "<PROPVALUE(username)>"
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.SignUp"
-    When Perform POST requset where uri is "/"
+    When Perform POST request where uri is "/"
     Then Validate the Response code is "400"
     And Validate Json Response Key "__type" have value "UsernameExistsException"
     And Validate Json Response Key "message" have value "User already exists"
 
   Scenario: Create account should work without Email or Phone no
-    Given Set the base uri as "<PROPVALUE(demo.webiste.signup.url)>"
+    Given Set the base uri as "<PROPVALUE(demo.webiste.cognito.url)>"
     Given Update and Set Json payload located in file "/RegisterUser.json" by updating payload json key "UserAttributes[0].Value" with value ""
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.SignUp"
-    When Perform POST requset where uri is "/"
+    When Perform POST request where uri is "/"
     Then Validate the Response code is "200"
     And Validate Json Response Key "UserConfirmed" have value "false"
     And Validate Json Response Key "CodeDeliveryDetails.AttributeName" have value "phone_number"
     And Validate Json Response Key "CodeDeliveryDetails.DeliveryMedium" have value "SMS"
     And Validate Json Response Key "CodeDeliveryDetails.Destination" contains value "+********"
     Given Update and Set Json payload located in file "/RegisterUser.json" by updating payload json key "UserAttributes[1].Value" with value ""
-    When Perform POST requset where uri is "/"
+    When Perform POST request where uri is "/"
     Then Validate the Response code is "200"
     And Validate Json Response Key "UserConfirmed" have value "false"
     And Validate Json Response Key "CodeDeliveryDetails.AttributeName" have value "email"
@@ -63,24 +64,24 @@ Feature: This feature is to test the Create User account flow
     And Validate Json Response Key "CodeDeliveryDetails.Destination" contains value "c***@m***.com"
 
   Scenario: Create account should work without Email and Phone no
-    Given Set the base uri as "<PROPVALUE(demo.webiste.signup.url)>"
+    Given Set the base uri as "<PROPVALUE(demo.webiste.cognito.url)>"
     Given Update and Set Json payload located in file "/RegisterUser.json" by updating below keys
       | key                     | value |
       | UserAttributes[0].Value |       |
       | UserAttributes[1].Value |       |
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.SignUp"
-    When Perform POST requset where uri is "/"
+    When Perform POST request where uri is "/"
     Then Validate the Response code is "200"
     And Validate Json Response Key "UserConfirmed" have value "false"
     And Validate Json Response Key "UserSub" is Not blank
 
   Scenario Outline: Create Account - Input data validations - Scenario: <scenario>
-    Given Set the base uri as "<PROPVALUE(demo.webiste.signup.url)>"
+    Given Set the base uri as "<PROPVALUE(demo.webiste.cognito.url)>"
     Given Update and Set Json payload located in file "/RegisterUser.json" by updating payload json key "<req_attribute>" with value "<req_value>"
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.SignUp"
-    When Perform POST requset where uri is "/"
+    When Perform POST request where uri is "/"
     Then Validate the Response code is "<status_code>"
     And Validate Json Response Key "<response_key>" contains value "<response_value>"
 
@@ -100,12 +101,12 @@ Feature: This feature is to test the Create User account flow
       | Phone number too long           | UserAttributes[1].Value | 96192737250009619273725                                                                                                       | 400         | message                           | Invalid phone number format.                                                                                                                                                                                                                                            |
 
   Scenario: Create account and complete sign up
-    Given Set the base uri as "<PROPVALUE(demo.webiste.signup.url)>"
+    Given Set the base uri as "<PROPVALUE(demo.webiste.cognito.url)>"
     Given Update and Set Json payload located in file "/RegisterUser.json" by updating payload json key "UserAttributes[1].Value" with value ""
     And Save Json Request Key-Value pair for "Username" as "username"
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.SignUp"
-    When Perform POST requset where uri is "/"
+    When Perform POST request where uri is "/"
     Then Validate the Response code is "200"
     And Validate Json Response Key "UserConfirmed" have value "false"
     And Validate Json Response Key "CodeDeliveryDetails.AttributeName" have value "email"
@@ -116,16 +117,16 @@ Feature: This feature is to test the Create User account flow
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.ConfirmSignUp"
     When Set Json payload as "{"ClientId":"67ne7914v6ri9ivjj59s5cr1nc","ConfirmationCode":"<PROPVALUE(signupOTP)>","Username":"<PROPVALUE(username)>","ForceAliasCreation":true}"
-    And Perform POST requset where uri is "/"
+    And Perform POST request where uri is "/"
     Then Validate the Response code is "200"
 
   Scenario: Create account, Enter wrong OTP then Resend OTP and complete sign up
-    Given Set the base uri as "<PROPVALUE(demo.webiste.signup.url)>"
+    Given Set the base uri as "<PROPVALUE(demo.webiste.cognito.url)>"
     Given Update and Set Json payload located in file "/RegisterUser.json" by updating payload json key "UserAttributes[1].Value" with value ""
     And Save Json Request Key-Value pair for "Username" as "username"
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.SignUp"
-    When Perform POST requset where uri is "/"
+    When Perform POST request where uri is "/"
     Then Validate the Response code is "200"
     And Validate Json Response Key "UserConfirmed" have value "false"
     And Validate Json Response Key "CodeDeliveryDetails.AttributeName" have value "email"
@@ -136,14 +137,14 @@ Feature: This feature is to test the Create User account flow
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.ConfirmSignUp"
     When Set Json payload as "{"ClientId":"67ne7914v6ri9ivjj59s5cr1nc","ConfirmationCode":"1111111","Username":"<PROPVALUE(username)>","ForceAliasCreation":true}"
-    And Perform POST requset where uri is "/"
+    And Perform POST request where uri is "/"
     Then Validate the Response code is "400"
     And Validate Json Response Key "message" have value "Invalid verification code provided, please try again."
     #Resend OTP
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.ResendConfirmationCode"
     When Set Json payload as "{"ClientId":"67ne7914v6ri9ivjj59s5cr1nc","Username":"<PROPVALUE(username)>"}"
-    And Perform POST requset where uri is "/"
+    And Perform POST request where uri is "/"
     Then Validate the Response code is "200"
     And Validate Json Response Key "CodeDeliveryDetails.AttributeName" have value "email"
     And Validate Json Response Key "CodeDeliveryDetails.DeliveryMedium" have value "EMAIL"
@@ -153,5 +154,5 @@ Feature: This feature is to test the Create User account flow
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.ConfirmSignUp"
     When Set Json payload as "{"ClientId":"67ne7914v6ri9ivjj59s5cr1nc","ConfirmationCode":"<PROPVALUE(signupOTP)>","Username":"<PROPVALUE(username)>","ForceAliasCreation":true}"
-    And Perform POST requset where uri is "/"
+    And Perform POST request where uri is "/"
     Then Validate the Response code is "200"

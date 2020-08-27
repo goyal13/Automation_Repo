@@ -12,9 +12,8 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClientBuilder;
 import com.amazonaws.services.cognitoidp.model.*;
-import com.amazonaws.util.StringUtils;
 import com.amazonaws.util.Base64;
-import com.test.autothon.common.ReadPropertiesFile;
+import com.amazonaws.util.StringUtils;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -82,10 +81,10 @@ class AuthenticationHelper {
 
     private BigInteger a;
     private BigInteger A;
-    private String userPoolID;
-    private String clientId;
-    private String secretKey;
-    private String region;
+    private final String userPoolID;
+    private final String clientId;
+    private final String secretKey;
+    private final String region;
     private String cognitoLoginUserDetails;
 
     AuthenticationHelper(String userPoolID, String clientid, String secretKey, String region) {
@@ -151,7 +150,7 @@ class AuthenticationHelper {
      * @return the JWT token if the request is successful else null.
      */
     String PerformSRPAuthentication(String username, String password) {
-        String authresult = null;
+        String authresult = "";
 
         InitiateAuthRequest initiateAuthRequest = initiateUserSrpAuthRequest(username);
         try {
@@ -167,7 +166,7 @@ class AuthenticationHelper {
                         initiateAuthRequest.getAuthParameters().get("SECRET_HASH"));
                 RespondToAuthChallengeResult result = cognitoIdentityProvider.respondToAuthChallenge(challengeRequest);
                 cognitoLoginUserDetails = CognitoJWTParser.getPayload(result.getAuthenticationResult().getIdToken()).toString();
-                authresult = result.getAuthenticationResult().getIdToken();
+                authresult = result.getAuthenticationResult().getAccessToken();
             }
         } catch (final Exception ex) {
             cognitoLoginUserDetails = "{\"message\": \"" + ex + "\"}";
@@ -318,7 +317,7 @@ class AuthenticationHelper {
          * @param ikm REQUIRED: The input key material.
          */
         public void init(byte[] ikm) {
-            this.init(ikm, (byte[]) null);
+            this.init(ikm, null);
         }
 
         /**
@@ -326,7 +325,7 @@ class AuthenticationHelper {
          * @param salt REQUIRED: Random bytes for salt.
          */
         private void init(byte[] ikm, byte[] salt) {
-            byte[] realSalt = salt == null ? EMPTY_ARRAY : (byte[]) salt.clone();
+            byte[] realSalt = salt == null ? EMPTY_ARRAY : salt.clone();
             byte[] rawKeyMaterial = EMPTY_ARRAY;
 
             try {

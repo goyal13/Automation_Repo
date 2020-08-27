@@ -169,7 +169,7 @@ public class CommonRestStep extends StepDefinition {
         commonRestService.httpGet(uri);
     }
 
-    @Given("^Perform POST requset where uri is \"(.*?)\"$")
+    @Given("^Perform POST request where uri is \"(.*?)\"$")
     public void performPOST(String uri) {
         uri = getOverlay(uri);
         commonRestService.httpPost(uri);
