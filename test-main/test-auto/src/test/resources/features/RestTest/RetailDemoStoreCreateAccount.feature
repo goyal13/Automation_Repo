@@ -61,7 +61,7 @@ Feature: This feature is to test the Create User account flow
     And Validate Json Response Key "UserConfirmed" have value "false"
     And Validate Json Response Key "CodeDeliveryDetails.AttributeName" have value "email"
     And Validate Json Response Key "CodeDeliveryDetails.DeliveryMedium" have value "EMAIL"
-    And Validate Json Response Key "CodeDeliveryDetails.Destination" contains value "c***@m***.com"
+    And Validate Json Response Key "CodeDeliveryDetails.Destination" contains value "<PROPVALUE(EMAIL_ID_HIDDEN)>"
 
   Scenario: Create account should work without Email and Phone no
     Given Set the base uri as "<PROPVALUE(demo.webiste.cognito.url)>"
@@ -89,9 +89,9 @@ Feature: This feature is to test the Create User account flow
       | scenario                        | req_attribute           | req_value                                                                                                                     | status_code | response_key                      | response_value                                                                                                                                                                                                                                                          |
       | Client ID is blank              | ClientId                |                                                                                                                               | 400         | message                           | 2 validation errors detected: Value at 'clientId' failed to satisfy constraint: Member must satisfy regular expression pattern: [\\w+]+; Value at 'clientId' failed to satisfy constraint: Member must have length greater than or equal to 1                           |
       | UserName is blank               | Username                |                                                                                                                               | 400         | message                           | 2 validation errors detected: Value at 'username' failed to satisfy constraint: Member must satisfy regular expression pattern: [\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+; Value at 'username' failed to satisfy constraint: Member must have length greater than or equal to 1 |
-      | UserName is too long            | Username                | testautothonteam1_<GENERATE_TIMESTAMP(ddMMyyyyHHmmssSSS)>_mmnmnnmsncmncmsdncmnnnnn8y86868575646465878098078574645ncmndmsbdjbh | 200         | UserConfirmed                     | false                                                                                                                                                                                                                                                                   |
-      | UserName has special characters | Username                | testautothonteam1_<GENERATE_TIMESTAMP(ddMMyyyyHHmmssSSS)>_@!#$%^&*()_+?><                                                     | 200         | UserConfirmed                     | false                                                                                                                                                                                                                                                                   |
-      | Password is blank               | Password                |                                                                                                                               | 400         | message                           | 2 validation errors detected: Value at 'password' failed to satisfy constraint: Member must satisfy regular expression pattern: ^[\\S]+.*[\\S]+$; Value at 'password' failed to satisfy constraint: Member must have length greater than or equal to 6                  |
+      | UserName is too long            | Username                | testautothonteam1_<GENERATE_TIMESTAMP(ddMMyyyyHHmmssSSS)>_mmnmnnmsncmncmsdncmnnnnn8y86868575646465878098078574645ncmndmsbdjbh | 200         | UserConfirmed | false                                                                                                                                                                                                                                                                   |
+      | UserName has special characters | Username                | testautothonteam1_<GENERATE_TIMESTAMP(ddMMyyyyHHmmssSSS)>_@!#$%^&*_+?                                                         | 200         | UserConfirmed | false                                                                                                                                                                                                                                                                   |
+      | Password is blank               | Password                |                                                                                                                               | 400         | message       | 2 validation errors detected: Value at 'password' failed to satisfy constraint: Member must satisfy regular expression pattern: ^[\\S]+.*[\\S]+$; Value at 'password' failed to satisfy constraint: Member must have length greater than or equal to 6                  |
       | Password is too short - 1 Char  | Password                | p                                                                                                                             | 400         | message                           | 2 validation errors detected: Value at 'password' failed to satisfy constraint: Member must satisfy regular expression pattern: ^[\\S]+.*[\\S]+$; Value at 'password' failed to satisfy constraint: Member must have length greater than or equal to 6                  |
       | Password is too short - 5 Char  | Password                | p@word                                                                                                                        | 400         | message                           | Password did not conform with policy: Password not long enough                                                                                                                                                                                                          |
       | Password is Non compliant       | Password                | P@1.><?}}}}{{                                                                                                                 | 400         | message                           | Password did not conform with policy: Password must have lowercase characters                                                                                                                                                                                           |
@@ -100,6 +100,7 @@ Feature: This feature is to test the Create User account flow
       | Phone number too short          | UserAttributes[1].Value | 961                                                                                                                           | 400         | message                           | Invalid phone number format.                                                                                                                                                                                                                                            |
       | Phone number too long           | UserAttributes[1].Value | 96192737250009619273725                                                                                                       | 400         | message                           | Invalid phone number format.                                                                                                                                                                                                                                            |
 
+  @sanity
   Scenario: Create account and complete sign up
     Given Set the base uri as "<PROPVALUE(demo.webiste.cognito.url)>"
     Given Update and Set Json payload located in file "/RegisterUser.json" by updating payload json key "UserAttributes[1].Value" with value ""
@@ -111,12 +112,12 @@ Feature: This feature is to test the Create User account flow
     And Validate Json Response Key "UserConfirmed" have value "false"
     And Validate Json Response Key "CodeDeliveryDetails.AttributeName" have value "email"
     And Validate Json Response Key "CodeDeliveryDetails.DeliveryMedium" have value "EMAIL"
-    And Validate Json Response Key "CodeDeliveryDetails.Destination" contains value "c***@m***.com"
+    And Validate Json Response Key "CodeDeliveryDetails.Destination" contains value "<PROPVALUE(EMAIL_ID_HIDDEN)>"
     Then Get and store OTP as "signupOTP"
     Given Clear Headers and cookies
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.ConfirmSignUp"
-    When Set Json payload as "{"ClientId":"67ne7914v6ri9ivjj59s5cr1nc","ConfirmationCode":"<PROPVALUE(signupOTP)>","Username":"<PROPVALUE(username)>","ForceAliasCreation":true}"
+    When Set Json payload as "{"ClientId":"<PROPVALUE(CLIENTAPP_ID)>","ConfirmationCode":"<PROPVALUE(signupOTP)>","Username":"<PROPVALUE(username)>","ForceAliasCreation":true}"
     And Perform POST request where uri is "/"
     Then Validate the Response code is "200"
 
@@ -131,28 +132,28 @@ Feature: This feature is to test the Create User account flow
     And Validate Json Response Key "UserConfirmed" have value "false"
     And Validate Json Response Key "CodeDeliveryDetails.AttributeName" have value "email"
     And Validate Json Response Key "CodeDeliveryDetails.DeliveryMedium" have value "EMAIL"
-    And Validate Json Response Key "CodeDeliveryDetails.Destination" contains value "c***@m***.com"
+    And Validate Json Response Key "CodeDeliveryDetails.Destination" contains value "<PROPVALUE(EMAIL_ID_HIDDEN)>"
     Then Get and store OTP as "signupOTP"
     Given Clear Headers and cookies
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.ConfirmSignUp"
-    When Set Json payload as "{"ClientId":"67ne7914v6ri9ivjj59s5cr1nc","ConfirmationCode":"1111111","Username":"<PROPVALUE(username)>","ForceAliasCreation":true}"
+    When Set Json payload as "{"ClientId":"<PROPVALUE(CLIENTAPP_ID)>","ConfirmationCode":"1111111","Username":"<PROPVALUE(username)>","ForceAliasCreation":true}"
     And Perform POST request where uri is "/"
     Then Validate the Response code is "400"
     And Validate Json Response Key "message" have value "Invalid verification code provided, please try again."
     #Resend OTP
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.ResendConfirmationCode"
-    When Set Json payload as "{"ClientId":"67ne7914v6ri9ivjj59s5cr1nc","Username":"<PROPVALUE(username)>"}"
+    When Set Json payload as "{"ClientId":"<PROPVALUE(CLIENTAPP_ID)>","Username":"<PROPVALUE(username)>"}"
     And Perform POST request where uri is "/"
     Then Validate the Response code is "200"
     And Validate Json Response Key "CodeDeliveryDetails.AttributeName" have value "email"
     And Validate Json Response Key "CodeDeliveryDetails.DeliveryMedium" have value "EMAIL"
-    And Validate Json Response Key "CodeDeliveryDetails.Destination" contains value "c***@m***.com"
+    And Validate Json Response Key "CodeDeliveryDetails.Destination" contains value "<PROPVALUE(EMAIL_ID_HIDDEN)>"
     Then Get and store OTP as "signupOTP"
     Given Clear Headers and cookies
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.ConfirmSignUp"
-    When Set Json payload as "{"ClientId":"67ne7914v6ri9ivjj59s5cr1nc","ConfirmationCode":"<PROPVALUE(signupOTP)>","Username":"<PROPVALUE(username)>","ForceAliasCreation":true}"
+    When Set Json payload as "{"ClientId":"<PROPVALUE(CLIENTAPP_ID)>","ConfirmationCode":"<PROPVALUE(signupOTP)>","Username":"<PROPVALUE(username)>","ForceAliasCreation":true}"
     And Perform POST request where uri is "/"
     Then Validate the Response code is "200"

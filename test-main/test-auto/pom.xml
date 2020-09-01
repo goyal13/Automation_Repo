@@ -18,13 +18,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <env>dev</env>
         <runTestsonRemoteHost>false</runTestsonRemoteHost>
-        <remoteHostUrl>http://13.228.137.176:4444/wd/hub</remoteHostUrl>
+        <remoteHostUrl>http://54.251.236.3:4444/wd/hub</remoteHostUrl>
         <agentUrl>http://localhost:8585</agentUrl>
         <browserName>chrome</browserName>
         <runHeadless>true</runHeadless>
         <runOnSauce>false</runOnSauce>
         <cucumberRunner>RunCucumberIT</cucumberRunner>
-        <cucumberTags>@rest</cucumberTags>
+        <cucumberTags>@sanity</cucumberTags>
+        <forkCount>3</forkCount>
     </properties>
 
     <profiles>
@@ -37,6 +38,8 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>2.22.0</version>
                         <configuration>
+                            <parallel>methods</parallel>
+                            <useUnlimitedThreads>true</useUnlimitedThreads>
                             <testFailureIgnore>true</testFailureIgnore>
                             <includes>
                                 <include>com/test/autothon/${cucumberRunner}.java</include>
@@ -162,7 +165,6 @@
                 </plugins>
             </build>
         </profile>
-
     </profiles>
     <dependencies>
         <dependency>

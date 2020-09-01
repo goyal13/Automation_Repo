@@ -1,15 +1,15 @@
 {
-  "ClientId":"67ne7914v6ri9ivjj59s5cr1nc",
-  "Username":"testautothonteam1_<GENERATE_TIMESTAMP(ddMMyyyyHHmmssSSS)>",
-  "Password":"Password@1234",
-  "UserAttributes":[
+  "ClientId": "<PROPVALUE(CLIENTAPP_ID)>",
+  "Username": "testautothonteam1_<GENERATE_TIMESTAMP(ddMMyyyyHHmmssSSS)>",
+  "Password": "<PROPVALUE(PASSWORD)>",
+  "UserAttributes": [
     {
-      "Name":"email",
-      "Value":"cb97bf5b-2108-4087-a2cc-b4d4b0e08c11@mailslurp.com"
+      "Name": "email",
+      "Value": "<PROPVALUE(EMAIL_ID)>"
     },
     {
-      "Name":"phone_number",
-      "Value":"+919619273725"
+      "Name": "phone_number",
+      "Value": "+919619273725"
     }
   ],
   "ValidationData":null

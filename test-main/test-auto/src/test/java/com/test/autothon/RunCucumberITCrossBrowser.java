@@ -17,7 +17,7 @@ import org.testng.annotations.Parameters;
         strict = true,
         plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:", "pretty", "junit:target/junit.xml", "json:target/cucumber-reports/cucumber.json"},
         glue = {"com.test.autothon"},
-        tags = {"@sample"},
+        tags = {"@UI and @Sanity1"},
         features = "src/test/resources/features"
 )
 public class RunCucumberITCrossBrowser extends AbstractTestNGCucumberTests {

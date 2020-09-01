@@ -1,9 +1,10 @@
 @rest
 Feature: This feature is to test the update user functionality
 
+  @sanity
   Scenario: Update user details for logged in user
     Given Set the base uri as "<PROPVALUE(demo.website.user.base.url)>"
-    When Perform GET request where uri is "/users/username/<PROPVALUE(username_test2)>"
+    When Perform GET request where uri is "/users/username/<PROPVALUE(username_test_signup_completed)>"
     Then Validate the Response code is "200"
     And Save Json Response Key-Value pair for "id" as "user_id"
 
@@ -19,7 +20,7 @@ Feature: This feature is to test the update user functionality
     When Perform PUT request where uri is "/users/id/<PROPVALUE(user_id)>"
     Then Validate the Response code is "201"
     And Validate Json Response Key "id" have value "<PROPVALUE(user_id)>"
-    And Validate Json Response Key "username" have value "<PROPVALUE(username_test2)>"
+    And Validate Json Response Key "username" have value "<PROPVALUE(username_test_signup_completed)>"
     And Validate Json Response Key "email" have value "<PROPVALUE(email)>"
     And Validate Json Response Key "first_name" have value "<PROPVALUE(first_name)>"
     And Validate Json Response Key "last_name" have value "<PROPVALUE(last_name)>"
@@ -29,7 +30,7 @@ Feature: This feature is to test the update user functionality
     When Perform GET request where uri is "/users/id/<PROPVALUE(user_id)>"
     Then Validate the Response code is "200"
     And Validate Json Response Key "id" have value "<PROPVALUE(user_id)>"
-    And Validate Json Response Key "username" have value "<PROPVALUE(username_test2)>"
+    And Validate Json Response Key "username" have value "<PROPVALUE(username_test_signup_completed)>"
     And Validate Json Response Key "email" have value "<PROPVALUE(email)>"
     And Validate Json Response Key "first_name" have value "<PROPVALUE(first_name)>"
     And Validate Json Response Key "last_name" have value "<PROPVALUE(last_name)>"

@@ -1,7 +1,7 @@
 @rest
 Feature: This feature is to test the Reset/Forgot Password flow
 
-
+  @sanity
   Scenario: Resend/Forgot Password - User verified
     Given Set the base uri as "<PROPVALUE(demo.webiste.cognito.url)>"
     Given Update and Set Json payload located in file "/RegisterUser.json" by updating payload json key "UserAttributes[1].Value" with value ""
@@ -14,23 +14,23 @@ Feature: This feature is to test the Reset/Forgot Password flow
     Given Clear Headers and cookies
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.ConfirmSignUp"
-    When Set Json payload as "{"ClientId":"67ne7914v6ri9ivjj59s5cr1nc","ConfirmationCode":"<PROPVALUE(signupOTP)>","Username":"<PROPVALUE(username)>","ForceAliasCreation":true}"
+    When Set Json payload as "{"ClientId":"<PROPVALUE(CLIENTAPP_ID)>","ConfirmationCode":"<PROPVALUE(signupOTP)>","Username":"<PROPVALUE(username)>","ForceAliasCreation":true}"
     And Perform POST request where uri is "/"
     Then Validate the Response code is "200"
     #Forget Password
-    And Set Json payload as "{"ClientId":"67ne7914v6ri9ivjj59s5cr1nc","Username":"<PROPVALUE(username)>"}"
+    And Set Json payload as "{"ClientId":"<PROPVALUE(CLIENTAPP_ID)>","Username":"<PROPVALUE(username)>"}"
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.ForgotPassword"
     When Perform POST request where uri is "/"
     Then Validate the Response code is "200"
     And Validate Json Response Key "CodeDeliveryDetails.AttributeName" have value "email"
     And Validate Json Response Key "CodeDeliveryDetails.DeliveryMedium" have value "EMAIL"
-    And Validate Json Response Key "CodeDeliveryDetails.Destination" contains value "c***@m***.com"
+    And Validate Json Response Key "CodeDeliveryDetails.Destination" contains value "<PROPVALUE(EMAIL_ID_HIDDEN)>"
     Then Get and store OTP as "signupOTP"
     Given Clear Headers and cookies
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.ConfirmForgotPassword"
-    When Set Json payload as "{"ClientId":"67ne7914v6ri9ivjj59s5cr1nc","Username":"<PROPVALUE(username)>","ConfirmationCode":"<PROPVALUE(signupOTP)>","Password":"Password@1234"}"
+    When Set Json payload as "{"ClientId":"<PROPVALUE(CLIENTAPP_ID)>","Username":"<PROPVALUE(username)>","ConfirmationCode":"<PROPVALUE(signupOTP)>","Password":"<PROPVALUE(PASSWORD)>"}"
     And Perform POST request where uri is "/"
     Then Validate the Response code is "200"
 
@@ -46,26 +46,25 @@ Feature: This feature is to test the Reset/Forgot Password flow
     Given Clear Headers and cookies
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.ConfirmSignUp"
-    When Set Json payload as "{"ClientId":"67ne7914v6ri9ivjj59s5cr1nc","ConfirmationCode":"<PROPVALUE(signupOTP)>","Username":"<PROPVALUE(username)>","ForceAliasCreation":true}"
+    When Set Json payload as "{"ClientId":"<PROPVALUE(CLIENTAPP_ID)>","ConfirmationCode":"<PROPVALUE(signupOTP)>","Username":"<PROPVALUE(username)>","ForceAliasCreation":true}"
     And Perform POST request where uri is "/"
     Then Validate the Response code is "200"
     #Forget Password
-    And Set Json payload as "{"ClientId":"67ne7914v6ri9ivjj59s5cr1nc","Username":"<PROPVALUE(username)>"}"
+    And Set Json payload as "{"ClientId":"<PROPVALUE(CLIENTAPP_ID)>","Username":"<PROPVALUE(username)>"}"
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.ForgotPassword"
     When Perform POST request where uri is "/"
     Then Validate the Response code is "200"
     And Validate Json Response Key "CodeDeliveryDetails.AttributeName" have value "email"
     And Validate Json Response Key "CodeDeliveryDetails.DeliveryMedium" have value "EMAIL"
-    And Validate Json Response Key "CodeDeliveryDetails.Destination" contains value "c***@m***.com"
+    And Validate Json Response Key "CodeDeliveryDetails.Destination" contains value "<PROPVALUE(EMAIL_ID_HIDDEN)>"
     Given Clear Headers and cookies
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.ConfirmForgotPassword"
-    When Set Json payload as "{"ClientId":"67ne7914v6ri9ivjj59s5cr1nc","Username":"<PROPVALUE(username)>","ConfirmationCode":"12345","Password":"Password@1234"}"
+    When Set Json payload as "{"ClientId":"<PROPVALUE(CLIENTAPP_ID)>","Username":"<PROPVALUE(username)>","ConfirmationCode":"12345","Password":"<PROPVALUE(PASSWORD)>"}"
     And Perform POST request where uri is "/"
     Then Validate the Response code is "400"
     And Validate Json Response Key "message" have value "Invalid verification code provided, please try again."
-
 
   Scenario: Resend/Forgot Password - User not verified
     Given Set the base uri as "<PROPVALUE(demo.webiste.cognito.url)>"
@@ -75,7 +74,7 @@ Feature: This feature is to test the Reset/Forgot Password flow
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.SignUp"
     When Perform POST request where uri is "/"
     Then Validate the Response code is "200"
-    And Set Json payload as "{"ClientId":"67ne7914v6ri9ivjj59s5cr1nc","Username":"<PROPVALUE(username)>"}"
+    And Set Json payload as "{"ClientId":"<PROPVALUE(CLIENTAPP_ID)>","Username":"<PROPVALUE(username)>"}"
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.ForgotPassword"
     When Perform POST request where uri is "/"
@@ -84,18 +83,18 @@ Feature: This feature is to test the Reset/Forgot Password flow
 
   Scenario: Resend code - User Field is Blank
     Given Set the base uri as "<PROPVALUE(demo.webiste.cognito.url)>"
-    And Set Json payload as "{"ClientId":"67ne7914v6ri9ivjj59s5cr1nc","Username":""}"
+    And Set Json payload as "{"ClientId":"<PROPVALUE(CLIENTAPP_ID)>","Username":""}"
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.ForgotPassword"
     When Perform POST request where uri is "/"
     Then Validate the Response code is "400"
-    And Validate Json Response Key "message" have value "2 validation errors detected: Value at 'username' failed to satisfy constraint: Member must satisfy regular expression pattern: [\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+; Value at 'username' failed to satisfy constraint: Member must have length greater than or equal to 1"
+    And Validate Json Response Key "message" have value "2 validation errors detected: Value at 'username' failed to satisfy constraint: Member must satisfy regular expression pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+; Value at 'username' failed to satisfy constraint: Member must have length greater than or equal to 1"
 
   Scenario Outline: Forgot Password - Field Validations - Scenario: <scenario>
     Given Set the base uri as "<PROPVALUE(demo.webiste.cognito.url)>"
     And Set the Request header with key "content-type" and value "application/x-amz-json-1.1"
     And Set the Request header with key "x-amz-target" and value "AWSCognitoIdentityProviderService.ConfirmForgotPassword"
-    When Set Json payload as "{"ClientId":"67ne7914v6ri9ivjj59s5cr1nc","Username":"testuser@gmail.com","ConfirmationCode":"12345","Password":"Password@1234"}"
+    When Set Json payload as "{"ClientId":"<PROPVALUE(CLIENTAPP_ID)>","Username":"testuser@gmail.com","ConfirmationCode":"12345","Password":"<PROPVALUE(PASSWORD)>"}"
     And Update and Set Json payload by updating payload json key "<req_attribute>" with value "<req_value>"
     And Perform POST request where uri is "/"
     Then Validate the Response code is "<status_code>"

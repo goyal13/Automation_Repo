@@ -1,6 +1,7 @@
 @rest
 Feature: This feaure is to Test the Retail demo cart checkout feature
 
+  @sanity
   Scenario: Add a product to the cart and checkout - as guest user
     #Perform Checkout with below details
     Given Set the base uri as "<PROPVALUE(demo.website.checkout.base.url)>"
@@ -13,51 +14,51 @@ Feature: This feaure is to Test the Retail demo cart checkout feature
   Scenario: Add a product to the cart and checkout - Logged in user
     #Get Card Id
     Given Set the base uri as "<PROPVALUE(demo.website.cart.base.url)>"
-    Given Set Json payload as "{"username":"<PROPVALUE(username_test2)>"}"
+    Given Set Json payload as "{"username":"<PROPVALUE(username_test_signup_completed)>"}"
     When Perform POST request where uri is "/carts"
     Then Validate the Response code is "201"
     And Save Json Response Key-Value pair for "id" as "cart_id"
     And Validate Json Response Key "id" is Not blank
-    And Validate Json Response Key "username" have value "<PROPVALUE(username_test2)>"
+    And Validate Json Response Key "username" have value "<PROPVALUE(username_test_signup_completed)>"
 
     Given Set the base uri as "<PROPVALUE(demo.website.checkout.base.url)>"
     And Update and Set Json payload located in file "/checkout.json" by updating below keys
       | key      | value                       |
-      | id       | <PROPVALUE(cart_id)>        |
-      | username | <PROPVALUE(username_test2)> |
+      | id       | <PROPVALUE(cart_id)>                        |
+      | username | <PROPVALUE(username_test_signup_completed)> |
 
     When Perform POST request where uri is "/orders"
     Then Validate the Response code is "201"
-    And Validate Json Response Key "username" have value "<PROPVALUE(username_test2)>"
+    And Validate Json Response Key "username" have value "<PROPVALUE(username_test_signup_completed)>"
     And Validate Json Response Key "id" is Not blank
     And Save Json Response Key-Value pair for "id" as "order_id"
     And Validate Json Response Key "items[0].product_id" have value "52"
 
     #Check order history deatils have the data
     Given Set the base uri as "<PROPVALUE(demo.website.checkout.base.url)>"
-    When Perform GET request where uri is "/orders/username/<PROPVALUE(username_test2)>"
+    When Perform GET request where uri is "/orders/username/<PROPVALUE(username_test_signup_completed)>"
     Then Validate the Response code is "200"
     And Validate Response contains "<PROPVALUE(order_id)>"
 
   Scenario: Add multiple product to the cart and checkout - Logged in user
     #Get Card Id
     Given Set the base uri as "<PROPVALUE(demo.website.cart.base.url)>"
-    Given Set Json payload as "{"username":"<PROPVALUE(username_test2)>"}"
+    Given Set Json payload as "{"username":"<PROPVALUE(username_test_signup_completed)>"}"
     When Perform POST request where uri is "/carts"
     Then Validate the Response code is "201"
     And Save Json Response Key-Value pair for "id" as "cart_id"
     And Validate Json Response Key "id" is Not blank
-    And Validate Json Response Key "username" have value "<PROPVALUE(username_test2)>"
+    And Validate Json Response Key "username" have value "<PROPVALUE(username_test_signup_completed)>"
 
     Given Set the base uri as "<PROPVALUE(demo.website.checkout.base.url)>"
     And Update and Set Json payload located in file "/checkout_multiple_items.json" by updating below keys
       | key      | value                       |
-      | id       | <PROPVALUE(cart_id)>        |
-      | username | <PROPVALUE(username_test2)> |
+      | id       | <PROPVALUE(cart_id)>                        |
+      | username | <PROPVALUE(username_test_signup_completed)> |
 
     When Perform POST request where uri is "/orders"
     Then Validate the Response code is "201"
-    And Validate Json Response Key "username" have value "<PROPVALUE(username_test2)>"
+    And Validate Json Response Key "username" have value "<PROPVALUE(username_test_signup_completed)>"
     And Validate Json Response Key "id" is Not blank
     And Validate Json Response Key "items[0].product_id" have value "1"
     And Validate Json Response Key "items[1].product_id" have value "2"

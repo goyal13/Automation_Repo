@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - mvn -B -f test-main -DskipTests clean install
+      - mvn install -PCrossBrowserTestRunner -f test-main/test-auto -Dcucumber.filter.tags="@UI and @sanity"
+
+artifacts:
+  files:
+    - test-main/test-auto/target/**/*.json
+    - test-main/test-auto/log/*
+    - test-main/test-auto/reports/*
+
+  discard-paths: yes

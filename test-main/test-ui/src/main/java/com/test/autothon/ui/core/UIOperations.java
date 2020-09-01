@@ -33,6 +33,12 @@ public class UIOperations extends StepDefinition {
         DriverFactory.getInstance().getDriver().navigate().to(url);
     }
 
+    public static void takeScreenShot() {
+        TakesScreenshot scrShot = ((TakesScreenshot) DriverFactory.getInstance().getDriver());
+        String SrcFile = scrShot.getScreenshotAs(OutputType.BASE64);
+        ScreenshotUtils.setBase64Image(SrcFile);
+    }
+
     public String getCurrentUrl() {
         return DriverFactory.getInstance().getDriver().getCurrentUrl();
     }
@@ -269,10 +275,8 @@ public class UIOperations extends StepDefinition {
         return elem;
     }
 
-    public void takeScreenShot() {
-        TakesScreenshot scrShot = ((TakesScreenshot) DriverFactory.getInstance().getDriver());
-        String SrcFile = scrShot.getScreenshotAs(OutputType.BASE64);
-        ScreenshotUtils.setBase64Image(SrcFile);
+    public void refreshPage() {
+        DriverFactory.getInstance().getDriver().navigate().refresh();
     }
 
     public void acceptAlertModalDialog() {

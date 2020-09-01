@@ -1,6 +1,7 @@
 @rest
 Feature: This feature is to test the Products listed on the Demo shopping website
 
+  @sanity
   Scenario: Get all product list from the website
     Given Set the base uri as "<PROPVALUE(demo.website.rest.base.url)>"
     When Perform GET request where uri is "/categories/all"
@@ -85,7 +86,6 @@ Feature: This feature is to test the Products listed on the Demo shopping websit
       | electronics |
       | accessories |
       | outdoors    |
-
 
   Scenario Outline: Validate All Related products shown for a selected product category <product> are shown as expected
     Given Set the base uri as "<PROPVALUE(demo.website.rest.base.url)>"

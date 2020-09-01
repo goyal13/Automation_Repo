@@ -6,7 +6,7 @@
     <parameter name="runHeadless" value="false"/>
     <parameter name="runOnSauce" value="false"/>
     <parameter name="runTestsonRemoteHost" value="false"/>
-    <parameter name="remoteHostUrl" value="http://13.228.137.176:4444/wd/hub"/>
+    <parameter name="remoteHostUrl" value="http://54.251.236.3:4444/wd/hub"/>
 
     <suite-files>
         <suite-file path="./testNG_sequential.xml" />

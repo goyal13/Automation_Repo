@@ -10,8 +10,8 @@ public class CognitoHelper extends StepDefinition {
 
     private final JsonMapConvertor jmc = new JsonMapConvertor();
     private String cognitoResponse;
-    private final String POOL_ID = "us-west-2_HRJuveKYa";//ReadPropertiesFile.getPropertyValue("POOL_ID");
-    private final String CLIENTAPP_ID = "67ne7914v6ri9ivjj59s5cr1nc";//ReadPropertiesFile.getPropertyValue("CLIENTAPP_ID");
+    private final String POOL_ID = ReadPropertiesFile.getPropertyValue("POOL_ID");
+    private final String CLIENTAPP_ID = ReadPropertiesFile.getPropertyValue("CLIENTAPP_ID");
     private final String CLIENT_SECRET = ReadPropertiesFile.getPropertyValue("CLIENT_SECRET");
     private final String REGION = ReadPropertiesFile.getPropertyValue("REGION");
     private String loginToken;
@@ -21,6 +21,7 @@ public class CognitoHelper extends StepDefinition {
     public void ValidateUser(String username, String password) {
         username = getOverlay(username);
         password = getOverlay(password);
+        System.out.println("Signing with user: " + username + " and Password: " + password);
         AuthenticationHelper helper = new AuthenticationHelper(POOL_ID, CLIENTAPP_ID, CLIENT_SECRET, REGION);
         loginToken = helper.PerformSRPAuthentication(username, password);
         cognitoResponse = helper.getCognitoLoginUserDetails();

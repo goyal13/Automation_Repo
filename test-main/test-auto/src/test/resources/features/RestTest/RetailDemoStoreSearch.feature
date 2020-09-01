@@ -1,6 +1,7 @@
 @rest
 Feature: This feature is to test the search functionality in the demo website
 
+  @sanity
   Scenario: Search product with a valid product name
     Given Set the base uri as "<PROPVALUE(demo.website.search.base.url)>"
     When Perform GET request where uri is "/search/products?searchTerm=footwear"
@@ -19,7 +20,6 @@ Feature: This feature is to test the search functionality in the demo website
     When Perform GET request where uri is "/search/products?searchTerm=super%20knit%20sneakers"
     Then Validate the Response code is "200"
     And Validate Response does not contains "NotFoundError"
-
 
   Scenario: Search product with a invalid product name
     Given Set the base uri as "<PROPVALUE(demo.website.search.base.url)>"

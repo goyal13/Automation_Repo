@@ -81,7 +81,7 @@ public class StepDefinition {
             newInput += "";
         }
         newInput += inputPart.substring(variableName.length() + 1);
-        logger.debug("Processed Value : [ " + newInput + " ]");
+        logger.info("Processed Value : [ " + newInput + " ]");
         return newInput;
     }
 

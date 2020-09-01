@@ -4,7 +4,7 @@
 
     <test name="ChromeTest_Linux_Using_TestProject_DockerContainer">
         <parameter name="browser" value="Chrome"/>
-        <parameter name="agentUrl" value="http://13.234.213.105:8585"/>
+        <parameter name="agentUrl" value="http://13.233.237.241:8585"/>
         <parameter name="runHeadless" value="true"/>
         <classes>
             <class name="com.test.autothon.RunCucumberITCrossBrowser">
@@ -13,7 +13,7 @@
     </test>
     <test name="FirefoxTest_Linux_Using_TestProject_DockerContainer">
         <parameter name="browser" value="Firefox"/>
-        <parameter name="agentUrl" value="http://13.234.213.105:8585"/>
+        <parameter name="agentUrl" value="http://13.233.237.241:8585"/>
         <parameter name="runHeadless" value="true"/>
         <classes>
             <class name="com.test.autothon.RunCucumberITCrossBrowser">
@@ -22,7 +22,7 @@
     </test>
     <test name="ChromeTest_Linux_Using_TestProject_DockerContainer_OnBrowserStackCloud">
         <parameter name="browser" value="Chrome"/>
-        <parameter name="agentUrl" value="http://13.234.213.105:8585"/>
+        <parameter name="agentUrl" value="http://13.233.237.241:8585"/>
         <parameter name="runOnSauce" value="true"/>
         <classes>
             <class name="com.test.autothon.RunCucumberITCrossBrowser">
@@ -31,7 +31,7 @@
     </test>
     <test name="FirefoxTest_Linux_Using_TestProject_DockerContainer_OnBrowserStackCloud">
         <parameter name="browser" value="Firefox"/>
-        <parameter name="agentUrl" value="http://13.234.213.105:8585"/>
+        <parameter name="agentUrl" value="http://13.233.237.241:8585"/>
         <parameter name="runOnSauce" value="true"/>
         <classes>
             <class name="com.test.autothon.RunCucumberITCrossBrowser">

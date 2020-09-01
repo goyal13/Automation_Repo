@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Autothon Parallel Tests" thread-count="2" parallel="tests" preserve-order="true">
+<suite name="Autothon Parallel Tests" thread-count="3" parallel="tests" preserve-order="true">
 
     <test name="MobileChrome_OnBrowserStackCloud">
         <parameter name="browser" value="mobile_chrome"/>
@@ -13,7 +13,7 @@
     <test name="ChromeTest_Linux_OnZaleniumDOckerContainer">
         <parameter name="browser" value="Chrome"/>
         <parameter name="runTestsonRemoteHost" value="true"/>
-        <parameter name="remoteHostUrl" value="http://15.206.70.221:4444/wd/hub"/>
+        <parameter name="remoteHostUrl" value="http://13.126.178.100:4444/wd/hub"/>
         <classes>
             <class name="com.test.autothon.RunCucumberITCrossBrowser">
             </class>
@@ -62,7 +62,7 @@
     <test name="FirefoxTest_Linux_OnZaleniumDockerContainer">
         <parameter name="browser" value="Firefox"/>
         <parameter name="runTestsonRemoteHost" value="true"/>
-        <parameter name="remoteHostUrl" value="http://15.206.70.221:4444/wd/hub"/>
+        <parameter name="remoteHostUrl" value="http://13.126.178.100:4444/wd/hub"/>
         <classes>
             <class name="com.test.autothon.RunCucumberITCrossBrowser">
             </class>

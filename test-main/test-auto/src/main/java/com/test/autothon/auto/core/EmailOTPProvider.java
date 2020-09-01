@@ -9,9 +9,9 @@ import org.junit.Assert;
 public class EmailOTPProvider extends StepDefinition {
 
     private final static String emailAccountURL = "https://api.mailslurp.com/";
-    private final static String API_KEY = "06502222d1da867806987649a2053033755c47bee336ebbfdd5724772468bec5";
+    private final static String API_KEY = ReadPropertiesFile.getPropertyValue("SMS_ACCESS_KEY");
     private final static String JSON_PAYLOAD = "{\"matches\":[{\"field\":\"SUBJECT\",\"should\":\"CONTAIN\",\"value\":\"Your verification code\"}]}";
-    private final static String MAIL_BOX_ID = "cb97bf5b-2108-4087-a2cc-b4d4b0e08c11";
+    private final static String MAIL_BOX_ID = ReadPropertiesFile.getPropertyValue("SMS_INBOX");
     CommonRestService commonRestService = new CommonRestService();
 
     private String waitAndGetIDForOTPEmail() {
