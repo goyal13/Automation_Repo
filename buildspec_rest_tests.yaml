@@ -8,8 +8,8 @@ phases:
 
 artifacts:
   files:
-    - test-main/test-auto/target/**/*.json
-    - test-main/test-auto/log/*
-    - test-main/test-auto/reports/*
+    - test-main/test-auto/target/**/cucumber.json
+    - test-main/test-auto/logs
+    - test-main/test-auto/reports
 
   discard-paths: yes
